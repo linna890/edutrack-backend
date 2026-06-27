@@ -1,0 +1,78 @@
+spring:
+  application:
+    name: edutrack-backend
+
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/edutrack}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:password}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      connection-timeout: 30000
+      # FIX: Neon databases go to sleep. These prevent stale connection errors.
+      keepalive-time: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      connection-test-query: SELECT 1
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+  mail:
+    host: ${BREVO_SMTP_HOST:smtp-relay.brevo.com}
+    port: ${BREVO_SMTP_PORT:587}
+    username: ${BREVO_SMTP_USER:}
+    password: ${BREVO_SMTP_KEY:}
+    test-connection: false
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+server:
+  port: ${PORT:8080}
+  servlet:
+    context-path: /api
+
+edutrack:
+  jwt:
+    # FIX: Added a dev fallback so local dev works without setting JWT_SECRET.
+    # In production (Railway), ALWAYS set JWT_SECRET to a 64+ char random string.
+    # The fallback below is public — NEVER use it in production.
+    secret: ${JWT_SECRET:CHANGE_ME_IN_PRODUCTION_USE_A_64_PLUS_CHARACTER_RANDOM_STRING_HERE_XYZ}
+    expiration-ms: 86400000
+  school:
+    name: ${SCHOOL_NAME:Mahinda College}
+    email-from: ${EMAIL_FROM:noreply@edutrack.school}
+  qr:
+    base-url: ${QR_BASE_URL:https://app.edutrack.school}
+
+cors:
+  allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000,https://*.vercel.app}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
+  health:
+    mail:
+      enabled: false
+
+logging:
+  level:
+    com.edutrack: INFO
+    org.springframework.security: WARN
