@@ -64,6 +64,8 @@ public class StudentController {
             s.setParentEmail(updated.getParentEmail());
             s.setParentPhone(updated.getParentPhone());
             s.setDateOfBirth(updated.getDateOfBirth());
+            if (updated.getRegistrationNumber() != null) s.setRegistrationNumber(updated.getRegistrationNumber());
+            if (updated.getPhotoBase64() != null) s.setPhotoBase64(updated.getPhotoBase64());
             return ResponseEntity.ok(studentRepo.save(s));
         }).orElse(ResponseEntity.notFound().build());
     }
