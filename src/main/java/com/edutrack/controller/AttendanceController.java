@@ -146,8 +146,12 @@ public class AttendanceController {
         }
 
         Map<String, Object> response = new LinkedHashMap<>();
-        response.put("message",       "Attendance recorded");
-        response.put("student",       student.getFullName());
+        response.put("message",            "Attendance recorded");
+        response.put("student",            student.getFullName());
+        response.put("studentId",          student.getStudentId());
+        response.put("grade",              student.getGrade());
+        response.put("registrationNumber", student.getRegistrationNumber());
+        response.put("photoBase64",        student.getPhotoBase64());
         response.put("status",        record.getStatus().name());
         response.put("arrivalTime",   record.getArrivalTime()   != null ? record.getArrivalTime().toString()   : null);
         response.put("departureTime", record.getDepartureTime() != null ? record.getDepartureTime().toString() : null);
