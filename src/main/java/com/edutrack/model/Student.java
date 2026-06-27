@@ -46,6 +46,12 @@ public class Student {
 
     private String qrImageBase64;      // plain Base64 PNG (no data-URI prefix)
 
+    @Column(columnDefinition = "TEXT")
+    private String photoBase64;        // plain Base64 of student photo (no data-URI prefix)
+
+    @Size(max = 50, message = "Registration number must be 50 characters or less")
+    private String registrationNumber; // e.g. "REG-2024-001"
+
     private LocalDate dateOfBirth;
 
     @Column(nullable = false)
